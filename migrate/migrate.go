@@ -22,6 +22,10 @@ import (
 	"github.com/scylladb/gocqlx/qb"
 )
 
+var (
+	MigrateFileGlob = "*.cql"
+)
+
 const (
 	infoSchema = `CREATE TABLE IF NOT EXISTS gocqlx_migrate (
 	name text,
@@ -75,7 +79,7 @@ func Migrate(ctx context.Context, session *gocql.Session, dir string) error {
 	}
 
 	// get file migrations
-	fm, err := filepath.Glob(filepath.Join(dir, "*.cql"))
+	fm, err := filepath.Glob(filepath.Join(dir, MigrateFileGlob))
 	if err != nil {
 		return fmt.Errorf("failed to list migrations in %q: %s", dir, err)
 	}
